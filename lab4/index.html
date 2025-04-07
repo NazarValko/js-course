@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Сортування масиву</title>
+</head>
+<body>
+  <h1>Сортування чисел</h1>
+
+  <label for="numbers">Введіть числа (через кому): </label>
+  <input type="text" id="numbers" placeholder="872,17,969,,6,720,524,,,526,850" />
+
+  <br><br>
+
+  <label for="order">Оберіть порядок сортування:</label>
+  <select id="order">
+    <option value="true">За зростанням</option>
+    <option value="false">За спаданням</option>
+  </select>
+
+  <br><br>
+
+  <label for="algorithm">Оберіть метод сортування:</label>
+  <select id="algorithm">
+    <option value="bubbleSort">Bubble Sort</option>
+    <option value="selectionSort">Selection Sort</option>
+    <option value="insertionSort">Insertion Sort</option>
+    <option value="shellSort">Shell Sort</option>
+    <option value="quickSort">Quick Sort</option>
+  </select>
+
+  <br><br>
+
+  <button onclick="sortArray()">Сортувати</button>
+
+  <h3>Результат:</h3>
+  <p id="result"></p>
+
+  <h3>Інформація про сортування:</h3>
+  <pre id="info"></pre>
+
+  
+  <script src="sortLib.js"></script>
+  <script>
+    const demoArray = [
+      872, 17, 969, 6, 720, 524, 526, 850, 100, 234, 345, 122, 765, 439, 991, 655, 831, 210, 444, 222, 
+      678, 567, 980, 102, 234, 235, 456, 543, 890, 666, 123, 767, 234, 111, 300, 250, 456, 678, 222, 999, 
+      108, 333, 543, 456, 777, 324, 987, 1001, 999, 555, 888, 666, 888, 111, 222, 333, 444, 555, 777, 888, 
+      999, 666, 123, 456, 234, 111, 555, 444, 111, 789, 876, 123, 444, 678, 890, 999, 555, 222, 333, 666, 
+      444, 555, 333, 666, 234, 888, 777, 123, 444, 1001, 200, 345, 212, 789, 112, 567, 889, 300, 100, 123, 
+      432, 234, 789, 213, 444, 765, 987, 345, 678, 123, 111, 500
+    ];
+
+    function sortArray() {
+      const input = document.getElementById("numbers").value;
+      const order = document.getElementById("order").value === "true";
+      const algorithm = document.getElementById("algorithm").value;
+
+      const useDemo = input.trim() === "";
+      const arr = useDemo ? demoArray : input.split(",").map(item => {
+        const trimmed = item.trim();
+        return trimmed === "" ? undefined : parseFloat(trimmed);
+      });
+
+      const invalid = arr.some(val => typeof val !== "number" && val !== undefined);
+      if (invalid) {
+        alert("Будь ласка, введіть тільки числа або порожні значення.");
+        return;
+      }
+
+      
+      const originalLog = console.log;
+      let capturedLogs = "";
+      console.log = (...args) => {
+        capturedLogs += args.join(" ") + "\n";
+        originalLog(...args);
+      };
+
+      
+      const sortedDemo = sortingAlgorithms[algorithm]([...arr], order);
+      let resultText = "Відсортовані числа (основний масив):\n" + sortedDemo.join(", ");
+
+      
+      if (useDemo) {
+        const sparseArray = demoArray.map(n => (Math.random() < 0.2 ? undefined : n)); 
+        const sortedSparse = sortingAlgorithms[algorithm]([...sparseArray], order);
+        resultText += "\n\nВідсортовані числа (розріджений масив):\n" + sortedSparse.join(", ");
+      }
+
+      document.getElementById("result").textContent = resultText;
+      document.getElementById("info").textContent = "Інформація про сортування: \n" + capturedLogs;
+
+      
+      console.log = originalLog;
+    }
+  </script>
+</body>
+</html>
+
+
+
