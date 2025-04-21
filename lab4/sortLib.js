@@ -1,122 +1,102 @@
 const sortingAlgorithms = {
-  
   bubbleSort: function(arr, ascending = true) {
     let n = arr.length;
     let comparisons = 0;
     let swaps = 0;
     let undefinedCount = 0;
 
-    
-    arr.forEach((item, index) => {
-      if (item === undefined) {
-        console.log(`undefined елемент знайдений на індексі ${index}`);
-        undefinedCount++;
-      }
-    });
+    const filteredArr = arr.filter(item => item !== undefined);
+    undefinedCount = arr.length - filteredArr.length;
+    const undefinedArr = new Array(undefinedCount).fill(undefined);
 
     if (undefinedCount > 0) {
       console.log(`Знайдено ${undefinedCount} undefined елементів у масиві.`);
     }
 
-    for (let i = 0; i < n - 1; i++) {
-      for (let j = 0; j < n - 1 - i; j++) {
+    for (let i = 0; i < filteredArr.length - 1; i++) {
+      for (let j = 0; j < filteredArr.length - 1 - i; j++) {
         comparisons++;
-        if ((ascending && arr[j] > arr[j + 1]) || (!ascending && arr[j] < arr[j + 1])) {
-          [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+        if ((ascending && filteredArr[j] > filteredArr[j + 1]) ||
+            (!ascending && filteredArr[j] < filteredArr[j + 1])) {
+          [filteredArr[j], filteredArr[j + 1]] = [filteredArr[j + 1], filteredArr[j]];
           swaps++;
         }
       }
     }
 
     console.log(`Bubble Sort: Порівнянь - ${comparisons}, Обмінів - ${swaps}`);
-    return arr;
+    return ascending ? [...filteredArr, ...undefinedArr] : [...undefinedArr, ...filteredArr];
   },
 
-  
   selectionSort: function(arr, ascending = true) {
-    let n = arr.length;
     let comparisons = 0;
     let swaps = 0;
     let undefinedCount = 0;
 
-    
-    arr.forEach((item, index) => {
-      if (item === undefined) {
-        console.log(`undefined елемент знайдений на індексі ${index}`);
-        undefinedCount++;
-      }
-    });
+    const filteredArr = arr.filter(item => item !== undefined);
+    undefinedCount = arr.length - filteredArr.length;
+    const undefinedArr = new Array(undefinedCount).fill(undefined);
 
     if (undefinedCount > 0) {
       console.log(`Знайдено ${undefinedCount} undefined елементів у масиві.`);
     }
 
-    for (let i = 0; i < n - 1; i++) {
-      let minIndex = i;
-      for (let j = i + 1; j < n; j++) {
+    for (let i = 0; i < filteredArr.length - 1; i++) {
+      let extIndex = i;
+      for (let j = i + 1; j < filteredArr.length; j++) {
         comparisons++;
-        if ((ascending && arr[j] < arr[minIndex]) || (!ascending && arr[j] > arr[minIndex])) {
-          minIndex = j;
+        if ((ascending && filteredArr[j] < filteredArr[extIndex]) ||
+            (!ascending && filteredArr[j] > filteredArr[extIndex])) {
+          extIndex = j;
         }
       }
-      [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+      [filteredArr[i], filteredArr[extIndex]] = [filteredArr[extIndex], filteredArr[i]];
       swaps++;
     }
 
     console.log(`Selection Sort: Порівнянь - ${comparisons}, Обмінів - ${swaps}`);
-    return arr;
+    return ascending ? [...filteredArr, ...undefinedArr] : [...undefinedArr, ...filteredArr];
   },
 
-  
   insertionSort: function(arr, ascending = true) {
-    let n = arr.length;
     let comparisons = 0;
     let shifts = 0;
     let undefinedCount = 0;
 
-    
-    arr.forEach((item, index) => {
-      if (item === undefined) {
-        console.log(`undefined елемент знайдений на індексі ${index}`);
-        undefinedCount++;
-      }
-    });
+    const filteredArr = arr.filter(item => item !== undefined);
+    undefinedCount = arr.length - filteredArr.length;
+    const undefinedArr = new Array(undefinedCount).fill(undefined);
 
     if (undefinedCount > 0) {
       console.log(`Знайдено ${undefinedCount} undefined елементів у масиві.`);
     }
 
-    for (let i = 1; i < n; i++) {
-      let key = arr[i];
+    for (let i = 1; i < filteredArr.length; i++) {
+      let key = filteredArr[i];
       let j = i - 1;
-      while (j >= 0 && ((ascending && arr[j] > key) || (!ascending && arr[j] < key))) {
+      while (j >= 0 && ((ascending && filteredArr[j] > key) || (!ascending && filteredArr[j] < key))) {
         comparisons++;
-        arr[j + 1] = arr[j];
+        filteredArr[j + 1] = filteredArr[j];
         j--;
         shifts++;
       }
-      arr[j + 1] = key;
+      filteredArr[j + 1] = key;
     }
 
     console.log(`Insertion Sort: Порівнянь - ${comparisons}, Зсувів - ${shifts}`);
-    return arr;
+    return ascending ? [...filteredArr, ...undefinedArr] : [...undefinedArr, ...filteredArr];
   },
 
-  
   shellSort: function(arr, ascending = true) {
-    let n = arr.length;
     let comparisons = 0;
     let swaps = 0;
     let undefinedCount = 0;
-    let gap = Math.floor(n / 2);
 
-    
-    arr.forEach((item, index) => {
-      if (item === undefined) {
-        console.log(`undefined елемент знайдений на індексі ${index}`);
-        undefinedCount++;
-      }
-    });
+    const filteredArr = arr.filter(item => item !== undefined);
+    undefinedCount = arr.length - filteredArr.length;
+    const undefinedArr = new Array(undefinedCount).fill(undefined);
+    let n = filteredArr.length;
+    let gap = Math.floor(n / 2);
 
     if (undefinedCount > 0) {
       console.log(`Знайдено ${undefinedCount} undefined елементів у масиві.`);
@@ -124,73 +104,67 @@ const sortingAlgorithms = {
 
     while (gap > 0) {
       for (let i = gap; i < n; i++) {
-        let temp = arr[i];
+        let temp = filteredArr[i];
         let j = i;
-        while (j >= gap && ((ascending && arr[j - gap] > temp) || (!ascending && arr[j - gap] < temp))) {
+        while (j >= gap && ((ascending && filteredArr[j - gap] > temp) ||
+            (!ascending && filteredArr[j - gap] < temp))) {
           comparisons++;
-          arr[j] = arr[j - gap];
+          filteredArr[j] = filteredArr[j - gap];
           j -= gap;
           swaps++;
         }
-        arr[j] = temp;
+        filteredArr[j] = temp;
       }
       gap = Math.floor(gap / 2);
     }
 
     console.log(`Shell Sort: Порівнянь - ${comparisons}, Обмінів - ${swaps}`);
-    return arr;
+    return ascending ? [...filteredArr, ...undefinedArr] : [...undefinedArr, ...filteredArr];
   },
 
-  
   quickSort: function(arr, ascending = true) {
     let comparisons = 0;
     let swaps = 0;
     let undefinedCount = 0;
 
-    
-    arr.forEach((item, index) => {
-      if (item === undefined) {
-        console.log(`undefined елемент знайдений на індексі ${index}`);
-        undefinedCount++;
-      }
-    });
+    const filteredArr = arr.filter(item => item !== undefined);
+    undefinedCount = arr.length - filteredArr.length;
+    const undefinedArr = new Array(undefinedCount).fill(undefined);
 
     if (undefinedCount > 0) {
       console.log(`Знайдено ${undefinedCount} undefined елементів у масиві.`);
     }
 
-    if (arr.length <= 1) return arr;
+    if (filteredArr.length <= 1) {
+      return ascending ? [...filteredArr, ...undefinedArr] : [...undefinedArr, ...filteredArr];
+    }
 
-    
     function partition(arr, low, high) {
-      let pivot = arr[high];  
-      let i = low - 1;        
+      let pivot = arr[high];
+      let i = low - 1;
       for (let j = low; j < high; j++) {
-        comparisons++; 
+        comparisons++;
         if ((ascending && arr[j] < pivot) || (!ascending && arr[j] > pivot)) {
           i++;
-          [arr[i], arr[j]] = [arr[j], arr[i]];  
-          swaps++;  
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+          swaps++;
         }
       }
-      [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];  
-      swaps++;  
+      [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+      swaps++;
       return i + 1;
     }
 
-    
     function quickSortRecursive(arr, low, high) {
       if (low < high) {
-        let pi = partition(arr, low, high);  
-        quickSortRecursive(arr, low, pi - 1);  
-        quickSortRecursive(arr, pi + 1, high);  
+        let pi = partition(arr, low, high);
+        quickSortRecursive(arr, low, pi - 1);
+        quickSortRecursive(arr, pi + 1, high);
       }
     }
 
-    quickSortRecursive(arr, 0, arr.length - 1);  
-    console.log(`Quick Sort: Порівнянь - ${comparisons}, Обмінів - ${swaps}`);  
-    return arr;
-  }
+    quickSortRecursive(filteredArr, 0, filteredArr.length - 1);
+    console.log(`Quick Sort: Порівнянь - ${comparisons}, Обмінів - ${swaps}`);
+    return ascending ? [...filteredArr, ...undefinedArr] : [...undefinedArr, ...filteredArr];
+  },
 };
-
-  
