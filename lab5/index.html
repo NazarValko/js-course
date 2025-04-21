@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pixel Hunt</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+    }
+    #game-area {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      border: 1px solid #ccc;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+    #square {
+      position: absolute;
+      cursor: pointer;
+    }
+    #game-over {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 20px 40px;
+      border-radius: 10px;
+      display: none;
+      z-index: 2;
+    }
+    #game-over button {
+      margin-top: 10px;
+      padding: 5px 15px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<h2>Pixel Hunt</h2>
+<label>Choose difficulty:
+  <select id="difficulty">
+    <option value="">--Please choose an option--</option>
+    <option value="easy">Easy</option>
+    <option value="medium">Medium</option>
+    <option value="hard">Hard</option>
+  </select>
+</label>
+<label>Choose color:
+  <select id="color">
+    <option value="">--Please choose an option--</option>
+    <option value="red">Red</option>
+    <option value="green">Green</option>
+    <option value="blue">Blue</option>
+  </select>
+</label>
+<button id="start" disabled>Start</button>
+
+<div>
+  <p id="score">Score: 0</p>
+  <p id="time-left"></p>
+</div>
+
+<div id="game-area">
+  <div id="game-over">
+    <p id="game-over-message"></p>
+    <button onclick="restartGame()">Restart</button>
+  </div>
+</div>
+
+<script>
+  const difficultySelect = document.getElementById('difficulty');
+  const colorSelect = document.getElementById('color');
+  const startBtn = document.getElementById('start');
+  const gameArea = document.getElementById('game-area');
+  const scoreDisplay = document.getElementById('score');
+  const timeLeftDisplay = document.getElementById('time-left');
+  const gameOverBox = document.getElementById('game-over');
+  const gameOverMsg = document.getElementById('game-over-message');
+
+  let square, score = 0, timeLimit, squareSize, moveInterval, timer;
+  let areaFactor = 1, gameIsOver = false;
+
+  function updateStartButtonState() {
+    startBtn.disabled = !(difficultySelect.value && colorSelect.value);
+  }
+
+  difficultySelect.addEventListener('change', updateStartButtonState);
+  colorSelect.addEventListener('change', updateStartButtonState);
+
+  startBtn.addEventListener('click', () => {
+    startBtn.disabled = true;
+    score = 0;
+    scoreDisplay.textContent = 'Score: 0';
+    startGame();
+  });
+
+  function startGame() {
+    gameIsOver = false;
+    gameOverBox.style.display = 'none';
+
+    const oldSquare = document.getElementById('square');
+    if (oldSquare) oldSquare.remove();
+
+    const difficulty = difficultySelect.value;
+    const color = colorSelect.value;
+
+    let config = {
+      easy:    { size: 70, time: 3000, areaFactor: 0.5 },
+      medium:  { size: 50, time: 2000, areaFactor: 0.75 },
+      hard:    { size: 30, time: 1000, areaFactor: 1 }
+    };
+
+    squareSize = config[difficulty].size;
+    timeLimit = config[difficulty].time;
+    areaFactor = config[difficulty].areaFactor;
+
+    square = document.createElement('div');
+    square.id = 'square';
+    square.style.width = squareSize + 'px';
+    square.style.height = squareSize + 'px';
+    square.style.backgroundColor = color;
+    gameArea.appendChild(square);
+
+    square.addEventListener('click', () => {
+      if (gameIsOver) return;
+      clearTimeout(timer);
+      clearInterval(moveInterval);
+      score++;
+      scoreDisplay.textContent = `Score: ${score}`;
+      moveSquare();
+    });
+
+    moveSquare();
+  }
+
+  function moveSquare() {
+    const totalWidth = gameArea.clientWidth;
+    const totalHeight = gameArea.clientHeight;
+
+    const areaWidth = totalWidth * areaFactor - squareSize;
+    const areaHeight = totalHeight * areaFactor - squareSize;
+
+    const offsetX = (totalWidth - areaWidth) / 2;
+    const offsetY = (totalHeight - areaHeight) / 2;
+
+    const randX = Math.floor(Math.random() * areaWidth + offsetX);
+    const randY = Math.floor(Math.random() * areaHeight + offsetY);
+
+    square.style.left = randX + 'px';
+    square.style.top = randY + 'px';
+
+    let secondsLeft = Math.floor(timeLimit / 1000);
+    timeLeftDisplay.textContent = `Time left for click: ${secondsLeft}`;
+
+    clearInterval(moveInterval);
+    moveInterval = setInterval(() => {
+      secondsLeft--;
+      if (secondsLeft > 0) {
+        timeLeftDisplay.textContent = `Time left for click: ${secondsLeft}`;
+      } else {
+        timeLeftDisplay.textContent = `Time left for click: 0`;
+        clearInterval(moveInterval);
+        gameOver();
+      }
+    }, 1000);
+
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      clearInterval(moveInterval);
+      gameOver();
+    }, timeLimit);
+  }
+
+  function gameOver() {
+    if (gameIsOver) return;
+    gameIsOver = true;
+
+    timeLeftDisplay.textContent = '';
+    gameOverBox.style.display = 'block';
+    gameOverMsg.textContent = `Game over! Your score: ${score}`;
+
+    const square = document.getElementById('square');
+    if (square) square.remove();
+
+    clearTimeout(timer);
+    clearInterval(moveInterval);
+  }
+
+  function restartGame() {
+    score = 0;
+    scoreDisplay.textContent = 'Score: 0';
+    timeLeftDisplay.textContent = '';
+    gameOverBox.style.display = 'none';
+
+    const square = document.getElementById('square');
+    if (square) square.remove();
+
+    startGame();
+  }
+</script>
+</body>
+</html>
