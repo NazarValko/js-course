@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Lights Out 5x5</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Гра "Lights Out" 5x5</h1>
+
+  <div class="controls">
+    <button onclick="loadPresetByName('A')">Варіант A</button>
+    <button onclick="loadPresetByName('B')">Варіант B</button>
+    <button onclick="loadPresetByName('C')">Варіант C</button>
+    <button onclick="generateRandomPreset()">Випадкове поле</button>
+    <button onclick="restartCurrentPreset()">Перезапуск</button>
+  </div>
+
+  <div id="game-board" class="game-board"></div>
+
+  <div class="info">
+    <p id="moves">Кроків: 0</p>
+    <p id="time">Час: 00:00</p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
