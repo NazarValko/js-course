@@ -1,0 +1,21 @@
+[
+    {
+      "id": 1,
+      "name": "Електроніка",
+      "shortname": "electronics",
+      "notes": "Lorem ipsum dolor sit amet."
+    },
+    {
+      "id": 2,
+      "name": "Побутова техніка",
+      "shortname": "appliances",
+      "notes": ""
+    },
+    {
+      "id": 3,
+      "name": "Послуги",
+      "shortname": "services",
+      "notes": "Послуги для дому."
+    }
+  ]
+  

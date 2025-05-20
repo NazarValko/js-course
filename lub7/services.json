@@ -1,0 +1,33 @@
+{
+    "category": {
+      "name": "Послуги",
+      "notes": "Послуги з ремонту, встановлення та налаштування техніки."
+    },
+    "items": [
+      {
+        "id": 1,
+        "name": "Ремонт ноутбуків",
+        "shortname": "laptop-repair",
+        "description": "Діагностика та ремонт технічних несправностей.",
+        "price": "від 500 грн",
+        "image": "images/repair.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Налаштування Wi-Fi",
+        "shortname": "wifi-setup",
+        "description": "Підключення та оптимізація домашньої мережі.",
+        "price": "300 грн",
+        "image": "images/wifi.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Монтаж техніки",
+        "shortname": "installation",
+        "description": "Встановлення пральних машин, телевізорів тощо.",
+        "price": "600 грн",
+        "image": "images/install.jpg"
+      }
+    ]
+  }
+  

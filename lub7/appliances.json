@@ -1,0 +1,33 @@
+{
+    "category": {
+      "name": "Побутова техніка",
+      "notes": "Різноманітна техніка для дому та кухні."
+    },
+    "items": [
+      {
+        "id": 1,
+        "name": "Фен Philips",
+        "shortname": "philips-hairdryer",
+        "description": "Компактний фен для сушіння волосся з кількома режимами.",
+        "price": "1500 грн",
+        "image": "images/philips.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Пилосос LG",
+        "shortname": "lg-vacuum",
+        "description": "Потужний пилосос з циклонною технологією очищення.",
+        "price": "3500 грн",
+        "image": "images/lg.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Блендер Bosch",
+        "shortname": "bosch-blender",
+        "description": "Блендер з кількома насадками для змішування.",
+        "price": "1800 грн",
+        "image": "images/bosch.jpg"
+      }
+    ]
+  }
+  

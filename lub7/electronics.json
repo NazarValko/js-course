@@ -1,0 +1,25 @@
+{
+    "category": {
+      "name": "Електроніка",
+      "notes": "Lorem ipsum dolor sit amet."
+    },
+    "items": [
+      {
+        "id": 1,
+        "name": "Ноутбук Acer",
+        "shortname": "acer-laptop",
+        "description": "Потужний ноутбук для навчання.",
+        "price": "23000 грн",
+        "image": "images/acer.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Смартфон Samsung",
+        "shortname": "samsung-phone",
+        "description": "Смартфон з великим екраном.",
+        "price": "19000 грн",
+        "image": "images/samsung.jpg"
+      }
+    ]
+  }
+  
