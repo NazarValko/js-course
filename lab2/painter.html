@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Завдання 1.2.29–1.2.31 – Painter</title>
+</head>
+<body>
+  <h1>Завдання 1.2.29–1.2.31 – Painter (див. консоль)</h1>
+
+  <script>
+    console.log("=== Завдання 1.2.29: Функція Painter ===");
+
+    function Painter(color) {
+      return function(obj) {
+        if (obj && obj.type) {
+          console.log("Color: " + color + ", Type: " + obj.type);
+        } else {
+          console.log("Color: " + color + ", No ‘type’ property occurred!");
+        }
+      };
+    }
+
+    const redPainter = Painter("red");
+    const bluePainter = Painter("blue");
+
+    const objectWithType = { type: "car", brand: "Toyota" };
+    const objectWithoutType = { brand: "Nike" };
+
+    redPainter(objectWithType);
+    redPainter(objectWithoutType);
+    bluePainter({ type: "wall" });
+
+    console.log("\n=== Завдання 1.2.30: PaintBlue, PaintRed, PaintYellow ===");
+
+    const PaintBlue = Painter("blue");
+    const PaintRed = Painter("red");
+    const PaintYellow = Painter("yellow");
+
+    const testObj1 = { type: "bicycle" };
+    const testObj2 = { brand: "Adidas" };
+    const testObj3 = { type: "door" };
+
+    PaintBlue(testObj1);
+    PaintRed(testObj2);
+    PaintYellow(testObj3);
+
+    console.log("\n=== Завдання 1.2.31: Тестування об'єктів з таблиці 12 ===");
+
+    const object1 = {
+      maxSpeed: 280,
+      type: "Sportcar",
+      color: "magenta"
+    };
+
+    const object2 = {
+      type: "Truck",
+      "avg speed": 90,
+      "load capacity": 2400
+    };
+
+    const object3 = {
+      maxSpeed: 180,
+      color: "purple",
+      isCar: true
+    };
+
+    console.log("=== Object 1 ===");
+    PaintBlue(object1);
+    PaintRed(object1);
+    PaintYellow(object1);
+
+    console.log("=== Object 2 ===");
+    PaintBlue(object2);
+    PaintRed(object2);
+    PaintYellow(object2);
+
+    console.log("=== Object 3 ===");
+    PaintBlue(object3);
+    PaintRed(object3);
+    PaintYellow(object3);
+  </script>
+</body>
+</html>
+

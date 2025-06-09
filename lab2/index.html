@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Лабораторна робота JS</title>
+</head>
+<body>
+  <h1>Виконання завдань 1.2.3 – 1.2.10 (див. консоль)</h1>
+
+  <script>
+    console.log(" Завдання 1.2.3: Створення об'єкта car1 ");
+
+    let car1 = new Object();
+    car1.color = "blue";
+    car1.maxSpeed = 220;
+
+    car1.driver = new Object();
+    car1.driver.name = "Denys Volochii";
+    car1.driver.category = "C";
+    car1.driver.personalLimitations = "No driving at night";
+
+    car1.tuning = true;
+    car1.numberOfAccidents = 0;
+
+    console.log(car1);
+
+    console.log("\n Завдання 1.2.4: Створення об'єкта car2 ");
+
+    let car2 = {
+      color: "red",
+      maxSpeed: 180,
+      driver: {
+        name: "Denys Volochii",
+        category: "B",
+        personalLimitations: null
+      },
+      tuning: false,
+      numberOfAccidents: 2
+    };
+
+    console.log(car2);
+
+    console.log("\n Завдання 1.2.5: Метод drive для car1 ");
+
+    car1.drive = function() {
+      console.log("I am not driving at night");
+    };
+
+    car1.drive();
+
+    console.log("\n Завдання 1.2.6: Метод drive для car2 ");
+
+    car2.drive = function() {
+      console.log("I can drive anytime");
+    };
+
+    car2.drive();
+
+    console.log("\n Завдання 1.2.7: Конструктор Truck ");
+
+    function Truck(color, weight, avgSpeed, brand, model) {
+      this.color = color;
+      this.weight = weight;
+      this.avgSpeed = avgSpeed;
+      this.brand = brand;
+      this.model = model;
+
+      this.trip = function() {
+        if (!this.driver) {
+          console.log("No driver assigned");
+        } else {
+          let msg = `Driver ${this.driver.name} `;
+          msg += this.driver.nightDriving ? "drives at night" : "does not drive at night";
+          msg += ` and has ${this.driver.experience} years of experience.`;
+          console.log(msg);
+        }
+      };
+    }
+
+    let truck1 = new Truck("green", 5000, 85.5, "Volvo", "FH16");
+    console.log(truck1);
+
+    console.log("\n Завдання 1.2.8: Метод AssignDriver для Truck ");
+
+    Truck.prototype.AssignDriver = function(name, nightDriving, experience) {
+      this.driver = {
+        name: name,
+        nightDriving: nightDriving,
+        experience: experience
+      };
+    };
+
+    truck1.AssignDriver("Denys Volochii", false, 4);
+    console.log(truck1);
+
+    console.log("\n Завдання 1.2.9: Перевірка trip для truck1 ");
+    truck1.trip();
+
+    let truck2 = new Truck("white", 4500, 90.2, "Mercedes", "Actros");
+    console.log("\n Завдання 1.2.9: Перевірка trip без водія ");
+    truck2.trip();
+
+    truck2.AssignDriver("Denys Volochii", true, 6);
+    console.log("\n Завдання 1.2.9: Перевірка trip з водієм ");
+    truck2.trip();
+
+    console.log("\n Завдання 1.2.10: Два truck об'єкти з trip ");
+
+    let truck3 = new Truck("black", 6000, 75.3, "MAN", "TGX");
+    let truck4 = new Truck("silver", 7000, 82.1, "DAF", "XF");
+
+    truck3.AssignDriver("Denys Volochii", true, 8);
+    truck4.AssignDriver("Denys Volochii", false, 5);
+
+    console.log("truck3:");
+    truck3.trip();
+
+    console.log("truck4:");
+    truck4.trip();
+  </script>
+</body>
+</html>
+
+
+

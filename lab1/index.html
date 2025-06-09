@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Прямокутний трикутник</title>
+</head>
+<body>
+  <h1>Функція triangle() — Розв’язання прямокутного трикутника</h1>
+  <p>Відкрий консоль браузера (F12 → Console) і викликай:</p>
+  <code>triangle(4, 'leg', 8, 'hypotenuse');</code>
+
+  <script>
+    console.log("Інструкція: triangle(value1, type1, value2, type2)");
+    console.log("Можливі типи:");
+    console.log("'leg', 'hypotenuse', 'adjacent angle', 'opposite angle', 'angle'");
+    console.log("Приклад: triangle(4, 'leg', 8, 'hypotenuse');");
+
+    function triangle(value1, type1, value2, type2) {
+      const toRad = deg => deg * Math.PI / 180;
+      const toDeg = rad => rad * 180 / Math.PI;
+
+      const validTypes = ['leg', 'hypotenuse', 'adjacent angle', 'opposite angle', 'angle'];
+      const input = {};
+
+      if (!validTypes.includes(type1) || !validTypes.includes(type2)) {
+        console.log("❌ Помилка: Один з типів аргументів неправильний. Перечитайте інструкцію.");
+        return "failed";
+      }
+
+      if (typeof value1 !== 'number' || typeof value2 !== 'number' || value1 <= 0 || value2 <= 0) {
+        const msg = "❌ Помилка: Значення повинні бути додатні числа.";
+        console.log(msg);
+        return msg;
+      }
+
+      input[type1] = value1;
+      input[type2] = value2;
+
+      let a, b, c, alpha, beta;
+
+      try {
+        if (input.leg !== undefined && input.hypotenuse !== undefined) {
+          a = input.leg;
+          c = input.hypotenuse;
+          if (a >= c) throw "❌ Катет не може бути більшим або рівним гіпотенузі.";
+          b = Math.sqrt(c * c - a * a);
+          alpha = toDeg(Math.asin(a / c));
+          beta = 90 - alpha;
+        } else if (type1 === 'leg' && type2 === 'leg') {
+          a = value1;
+          b = value2;
+          c = Math.sqrt(a * a + b * b);
+          alpha = toDeg(Math.atan(a / b));
+          beta = 90 - alpha;
+        } else if (input.hypotenuse !== undefined && (input.angle !== undefined || input["adjacent angle"] !== undefined || input["opposite angle"] !== undefined)) {
+          c = input.hypotenuse;
+
+          if (input.angle !== undefined) {
+            alpha = input.angle;
+          } else if (input["opposite angle"] !== undefined) {
+            alpha = input["opposite angle"];
+          } else {
+            beta = input["adjacent angle"];
+            alpha = 90 - beta;
+          }
+
+          if (alpha <= 0 || alpha >= 90) throw "❌ Кут повинен бути гострим (від 0 до 90, не включно).";
+
+          a = c * Math.sin(toRad(alpha));
+          b = c * Math.cos(toRad(alpha));
+          beta = 90 - alpha;
+        } else if (input.leg !== undefined && (input["adjacent angle"] !== undefined || input["opposite angle"] !== undefined)) {
+          a = input.leg;
+
+          if (input["opposite angle"] !== undefined) {
+            alpha = input["opposite angle"];
+            if (alpha <= 0 || alpha >= 90) throw "❌ Кут повинен бути гострим (від 0 до 90, не включно).";
+            c = a / Math.sin(toRad(alpha));
+            b = Math.sqrt(c * c - a * a);
+            beta = 90 - alpha;
+          } else {
+            beta = input["adjacent angle"];
+            if (beta <= 0 || beta >= 90) throw "❌ Кут повинен бути гострим (від 0 до 90, не включно).";
+            alpha = 90 - beta;
+            c = a / Math.cos(toRad(beta));
+            b = Math.sqrt(c * c - a * a);
+          }
+        } else {
+          console.log("❌ Несумісна пара типів. Перечитайте інструкцію.");
+          return "failed";
+        }
+
+        console.log("=== Результат розв’язання трикутника ===");
+        console.log(`a (катет): ${a.toFixed(2)}`);
+        console.log(`b (катет): ${b.toFixed(2)}`);
+        console.log(`c (гіпотенуза): ${c.toFixed(2)}`);
+        console.log(`alpha (кут навпроти a): ${alpha.toFixed(2)}°`);
+        console.log(`beta (кут навпроти b): ${beta.toFixed(2)}°`);
+        console.log("========================================");
+        return "success";
+      } catch (e) {
+        console.error("Результат:", e);
+        return typeof e === 'string' ? e : "failed";
+      }
+    }
+  </script>
+</body>
+</html>
+
